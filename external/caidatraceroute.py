@@ -17,7 +17,7 @@ from progress.bar import Progress
 class TType(Enum):
     """Traceroute types."""
     team = 1
-    probing = 2
+    prefix = 2
 
 
 class TTypeException(Exception):
@@ -89,7 +89,7 @@ def get(args, ttype):
     ct = CaidaTraceroute(args)
     if ttype == TType.team:
         urls = ct.get(ct.get_team())
-    elif ttype == TType.probing:
+    elif ttype == TType.prefix:
         urls = ct.get(ct.get_prefix())
     else:
         raise TTypeException('Invalid TType')
@@ -101,4 +101,4 @@ def get_caidateam(args):
 
 
 def get_caidaprefix(args):
-    get(args, TType.probing)
+    get(args, TType.prefix)
