@@ -1,4 +1,5 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+from collections import namedtuple
 from datetime import timedelta
 from multiprocessing.pool import Pool
 from os import makedirs
@@ -9,6 +10,13 @@ import requests
 from dateutil.parser import parse
 from humanfriendly import format_size
 from progress.bar import Progress
+
+
+class DownloadInfo:
+    def __init__(self, url, filename, auth=None):
+        self.url = url
+        self.filename = filename
+        self.auth = auth
 
 
 class AbstractRetriever(ABC):
@@ -22,14 +30,13 @@ class AbstractRetriever(ABC):
         if self.dir != '.' and self.dir != '..':
             makedirs(self.dir, exist_ok=True)
 
-    def newfilename(self, url):
+    def newfilename(self, url: str):
         return basename(urlparse(url).path)
 
-    def download(self, url):
-        filename = self.newfilename(url)
-        r = requests.get(url, auth=self.auth, allow_redirects=True)
+    def download(self, info: DownloadInfo):
+        r = requests.get(info.url, auth=info.auth, allow_redirects=True)
         content = r.content
-        with open(pjoin(self.dir, filename), 'wb') as f:
+        with open(pjoin(self.dir, info.filename), 'wb') as f:
             f.write(content)
         return len(content)
 
@@ -37,6 +44,9 @@ class AbstractRetriever(ABC):
         totalsize = 0
         pb = Progress(len(urls), 'Downloading traceroute files',
                       callback=lambda: 'Size {}'.format(format_size(totalsize)))
-        with Pool(self.processes) as pool:
-            for size in pb.iterator(pool.imap_unordered(self.download, urls)):
-                totalsize += size
+        try:
+            with Pool(min(self.processes, len(urls))) as pool:
+                for size in pb.iterator(pool.imap_unordered(self.download, urls)):
+                    totalsize += size
+        except KeyboardInterrupt:
+            print('Ending prematurely.')

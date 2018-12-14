@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
-from external.abstract_retriever import AbstractRetriever
+from external.abstract_retriever import AbstractRetriever, DownloadInfo
 
 
 class TType(Enum):
@@ -34,7 +34,8 @@ class CaidaTraceroute(AbstractRetriever):
                     href = link['href']
                     if regex.search(href):
                         joinedhref = urljoin(url, href)
-                        urls.append(joinedhref)
+                        info = DownloadInfo(joinedhref, self.newfilename(joinedhref), auth=self.auth)
+                        urls.append(info)
         return urls
 
     def get_prefix(self):
