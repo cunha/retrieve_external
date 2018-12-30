@@ -8,7 +8,7 @@ from external.caidatraceroute import get_caidateam, get_caidaprefix
 def main():
     parser = ArgumentParser()
     parser.add_argument('-b', '--begin', help='Beginning date.', required=True)
-    parser.add_argument('-e', '--end', help='Ending date.', required=True)
+    parser.add_argument('-e', '--end', help='Ending date.')
     parser.add_argument('-u', '--username', help='Username.')
     parser.add_argument('-p', '--password', help='Password.')
     parser.add_argument('-n', '--processes', type=int, default=5, help='Number of processes to use.')
@@ -28,6 +28,8 @@ def main():
     rir.set_defaults(func=rirdelegations.get)
 
     args = parser.parse_args()
+    if not args.end:
+        args.end = args.begin
     args.func(args)
     # print(args.func)
 

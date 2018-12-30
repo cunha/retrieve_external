@@ -55,6 +55,8 @@ class CaidaTraceroute(AbstractRetriever):
 
 
 def get(args, ttype):
+    if not args.username or not args.password:
+        raise Exception('Must supply username and password')
     ct = CaidaTraceroute(args)
     if ttype == TType.team:
         urls = ct.get(ct.get_team())
