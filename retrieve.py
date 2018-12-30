@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from argparse import ArgumentParser
 
-from external import bgpribs, rirdelegations
+from external import bgpribs, rirdelegations, relationships
 from external.caidatraceroute import get_caidateam, get_caidaprefix
 
 
@@ -26,6 +26,9 @@ def main():
 
     rir = sub.add_parser('rir', help='Retrieve the RIR extended delegation files.')
     rir.set_defaults(func=rirdelegations.get)
+
+    rels = sub.add_parser('rels', help='Retrieve AS relationships and customer cone files.')
+    rels.set_defaults(func=relationships.get)
 
     args = parser.parse_args()
     if not args.end:
