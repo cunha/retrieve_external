@@ -14,7 +14,6 @@ class BGPRetriever(AbstractRetriever):
             nextday = utctimestamp(day + timedelta(1))
             tstamp = utctimestamp(day)
             url = 'https://bgpstream.caida.org/broker/data?human&intervals[]={begin},{end}&types[]=ribs'.format(begin=tstamp, end=nextday)
-            print(url)
             r = requests.get(url)
             results = r.json()
             dumps: List[Dict[str, Any]] = results['data']['dumpFiles']
