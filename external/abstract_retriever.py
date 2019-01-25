@@ -1,3 +1,4 @@
+import sys
 from abc import ABC, abstractmethod
 from collections import namedtuple
 from datetime import timedelta
@@ -35,6 +36,9 @@ class AbstractRetriever(ABC):
 
     def download(self, info: DownloadInfo):
         r = requests.get(info.url, auth=info.auth, allow_redirects=True)
+        if not r.ok:
+            print('\r\033[KWarning: {}'.format(info.url), file=sys.stderr)
+            return 0
         content = r.content
         with open(pjoin(self.dir, info.filename), 'wb') as f:
             f.write(content)

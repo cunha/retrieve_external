@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from argparse import ArgumentParser
 
-from external import bgpribs, rirdelegations, relationships
+from external import bgpribs, rirdelegations, relationships, peeringdb
 from external.caidatraceroute import get_caidateam, get_caidaprefix
 
 
@@ -29,6 +29,9 @@ def main():
 
     rels = sub.add_parser('rels', help='Retrieve AS relationships and customer cone files.')
     rels.set_defaults(func=relationships.get)
+
+    pdb = sub.add_parser('peeringdb', help='Retreive PeeringDB json files.')
+    pdb.set_defaults(func=peeringdb.get)
 
     args = parser.parse_args()
     if not args.end:
