@@ -12,6 +12,7 @@ class BGPRetriever(AbstractRetriever):
     def get(self):
         urls = []
         pb = Progress(len(self.days), 'Gathering urls')
+        print(self.days)
         for day in pb.iterator(self.days):
             nextday = utctimestamp(day + timedelta(1))
             tstamp = utctimestamp(day)

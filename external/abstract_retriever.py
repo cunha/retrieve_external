@@ -25,7 +25,8 @@ class AbstractRetriever(ABC):
         self.auth = (args.username, args.password) if args.username else None
         self.begin = parse(args.begin)
         self.end = parse(args.end)
-        self.days = [self.begin + timedelta(i) for i in range((self.end - self.begin).days + 1)]
+        self.interval = args.interval
+        self.days = [self.begin + timedelta(i) for i in range(0, (self.end - self.begin).days + 1, self.interval)]
         self.processes = args.processes
         self.dir = args.dir
         if self.dir != '.' and self.dir != '..':

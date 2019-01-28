@@ -9,6 +9,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('-b', '--begin', help='Beginning date.', required=True)
     parser.add_argument('-e', '--end', help='Ending date.')
+    parser.add_argument('-i', '--interval', type=int, default=1, help='Interval in days')
     parser.add_argument('-u', '--username', help='Username.')
     parser.add_argument('-p', '--password', help='Password.')
     parser.add_argument('-n', '--processes', type=int, default=5, help='Number of processes to use.')
