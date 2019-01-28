@@ -2,6 +2,7 @@ from datetime import timedelta, timezone, datetime
 from typing import Any, Dict, List
 
 import requests
+from traceutils.progress.bar import Progress
 
 from external.abstract_retriever import AbstractRetriever, DownloadInfo
 
@@ -10,7 +11,8 @@ class BGPRetriever(AbstractRetriever):
 
     def get(self):
         urls = []
-        for day in self.days:
+        pb = Progress(len(self.days), 'Gathering urls')
+        for day in pb.iterator(self.days):
             nextday = utctimestamp(day + timedelta(1))
             tstamp = utctimestamp(day)
             url = 'https://bgpstream.caida.org/broker/data?human&intervals[]={begin},{end}&types[]=ribs'.format(begin=tstamp, end=nextday)

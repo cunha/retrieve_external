@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 import requests
 from dateutil.parser import parse
 from humanfriendly import format_size
-from progress.bar import Progress
+from traceutils.progress.bar import Progress
 
 
 class DownloadInfo:
