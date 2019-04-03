@@ -1,3 +1,7 @@
+---
+title: retrieve-external Documentation
+---
+
 A lot of datasets go into bdrmapIT’s inferences.
 All of it can be retrieved using the retrieve_external package, but it is not necessary to use it for some or all of the datasets. The examples here assume that the retrieve_externalpackage is use.
 To clone it and install required packages,
@@ -18,7 +22,16 @@ Argument | Required | Description
 -p, --password | Optional | Password, if the retrieval requires a login.
 -n, –processes | Optional | Number of simultaneous downloads. Some sites prevent many simultaneous downloads to the same IP address. Defaults to 5.
 -d, --dir | Required | Directory where all downloaded files will be stored. The directory will be created if it does not exist.
-mode | Required | Exactly one of the choices: <ul><li>caida-team – CAIDA team probing warts files</li><li>caida-prefix – CAIDA prefix probing warts files</li><li>caida-prefix – CAIDA prefix probing warts files</li><li>bgp – RIBs from RouteViews and RIPE RIS</li><li>rir – RIR extended delegation files</li><li>rels – CAIDA AS relationships and customer cone datasets</li><li>peeringdb – PeeringDB json file from CAIDA</li></ul>
+mode | Required | Exactly one of the modes in the table below.
+
+Mode | Description
+:--- | :---
+caida-team | [CAIDA team probing](https://www.caida.org/data/active/ipv4_routed_24_topology_dataset.xml) warts files
+caida-prefix | [CAIDA prefix probing](https://www.caida.org/data/active/ipv4_prefix_probing_dataset.xml) warts files
+bgp | RIBs from [RouteViews](http://www.routeviews.org/routeviews/) and [RIPE RIS](https://www.ripe.net/analyse/internet-measurements/routing-information-service-ris/ris-raw-data)
+rir | RIR extended delegation files
+rels | [CAIDA AS relationships and customer cone](http://www.caida.org/data/as-relationships/) datasets
+peeringdb | PeeringDB json file from CAIDA
 
 # Prefix to AS
 There are several sources of data that enable the creation of prefix to AS mappings.
