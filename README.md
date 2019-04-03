@@ -1,2 +1,2 @@
 # README
-All information is in the wiki.
+All information is in the [project documentation](https://alexmarder.github.io/retrieve-external/).
