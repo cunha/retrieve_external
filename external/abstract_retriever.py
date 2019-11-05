@@ -47,7 +47,7 @@ class AbstractRetriever(ABC):
 
     def parallel_download(self, urls):
         totalsize = 0
-        pb = Progress(len(urls), 'Downloading traceroute files',
+        pb = Progress(len(urls), 'Downloading files',
                       callback=lambda: 'Size {}'.format(format_size(totalsize)))
         try:
             with Pool(min(self.processes, len(urls))) as pool:
