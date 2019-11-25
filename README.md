@@ -1,5 +1,2 @@
-# retrieve-external
-To install, first run
-```bash
-pip install -r requirements.txt
-```
+# README
+All information is in the [project documentation](https://alexmarder.github.io/retrieve-external/).
