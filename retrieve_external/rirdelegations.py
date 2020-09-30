@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from external.abstract_retriever import AbstractRetriever, DownloadInfo
-
+from retrieve_external.abstract_retriever import AbstractRetriever, DownloadInfo
 
 class RIRRetriever(AbstractRetriever):
 
@@ -41,7 +40,6 @@ class RIRRetriever(AbstractRetriever):
                 info = DownloadInfo(url, self.newfilename(url))
                 urls.append(info)
         return urls
-
 
 def get(args):
     rir = RIRRetriever(args)

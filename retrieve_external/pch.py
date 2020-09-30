@@ -1,6 +1,5 @@
-from external.abstract_retriever import AbstractRetriever, DownloadInfo
+from retrieve_external.abstract_retriever import AbstractRetriever, DownloadInfo
 import pandas as pd
-
 
 class PCHRetriever(AbstractRetriever):
 
@@ -30,7 +29,6 @@ class PCHRetriever(AbstractRetriever):
         #         info = DownloadInfo(url, self.newfilename(url), auth=self.auth)
         #         urls.append(info)
         return urls
-
 
 def get(args):
     pr = PCHRetriever(args)

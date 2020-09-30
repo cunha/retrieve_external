@@ -12,13 +12,11 @@ from dateutil.parser import parse
 from humanfriendly import format_size
 from traceutils.progress.bar import Progress
 
-
 class DownloadInfo:
     def __init__(self, url, filename, auth=None):
         self.url = url
         self.filename = filename
         self.auth = auth
-
 
 class AbstractRetriever(ABC):
     def __init__(self, args):

@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 from argparse import ArgumentParser
 
-from external import bgpribs, rirdelegations, relationships, peeringdb, pch
-from external.caidatraceroute import get_caidateam, get_caidaprefix
-
+from retrieve_external import bgpribs, rirdelegations, relationships, peeringdb, pch
+from retrieve_external.caidatraceroute import get_caidateam, get_caidaprefix
 
 def main():
     parser = ArgumentParser()
@@ -42,7 +41,6 @@ def main():
         args.end = args.begin
     args.func(args)
     # print(args.func)
-
 
 if __name__ == '__main__':
     main()

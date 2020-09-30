@@ -4,8 +4,7 @@ from typing import Any, Dict, List
 import requests
 from traceutils.progress.bar import Progress
 
-from external.abstract_retriever import AbstractRetriever, DownloadInfo
-
+from retrieve_external.abstract_retriever import AbstractRetriever, DownloadInfo
 
 class BGPRetriever(AbstractRetriever):
 
@@ -29,10 +28,8 @@ class BGPRetriever(AbstractRetriever):
                 urls.append(info)
         return urls
 
-
 def utctimestamp(dt: datetime):
     return dt.replace(tzinfo=timezone.utc).timestamp()
-
 
 def get(args):
     ris = BGPRetriever(args)

@@ -6,18 +6,15 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
-from external.abstract_retriever import AbstractRetriever, DownloadInfo
-
+from retrieve_external.abstract_retriever import AbstractRetriever, DownloadInfo
 
 class TType(Enum):
     """Traceroute types."""
     team = 1
     prefix = 2
 
-
 class TTypeException(Exception):
     """Raise for incorrectly supplied traceroute types."""
-
 
 class CaidaTraceroute(AbstractRetriever):
 
@@ -53,7 +50,6 @@ class CaidaTraceroute(AbstractRetriever):
                     team=team, year=day.year, month=day.month, day=day.day)
                 yield url, r'.*\.warts\.gz'
 
-
 def get(args, ttype):
     if not args.username or not args.password:
         raise Exception('Must supply username and password')
@@ -66,10 +62,8 @@ def get(args, ttype):
         raise TTypeException('Invalid TType')
     ct.parallel_download(urls)
 
-
 def get_caidateam(args):
     get(args, TType.team)
-
 
 def get_caidaprefix(args):
     get(args, TType.prefix)
