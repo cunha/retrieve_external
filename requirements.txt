@@ -2,3 +2,5 @@ python-dateutil
 requests
 humanfriendly
 beautifulsoup4
+pandas
+traceutils
