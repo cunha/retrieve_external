@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 
 from retrieve_external import bgpribs, riperecent, rirdelegations, relationships, peeringdb, pch
 from retrieve_external.caidatraceroute import get_caidateam, get_caidaprefix
+from retrieve_external import publictraceroute
 
 def main():
     parser = ArgumentParser()
@@ -20,6 +21,12 @@ def main():
 
     caidap = sub.add_parser('caida-prefix', help='Retrieve the CAIDA prefix probing traceroutes.')
     caidap.set_defaults(func=get_caidaprefix)
+
+    publict = sub.add_parser('public-team', help='Retrieve the public CAIDA team probing traces')
+    publict.set_defaults(func=publictraceroute.get_publicteam)
+
+    publicp = sub.add_parser('public-prefix', help='Retrieve the public CAIDA prefix probing traces')
+    publicp.set_defaults(func=publictraceroute.get_publicprefix)
 
     bgp = sub.add_parser('bgp', help='Retrieve bgp RIBs from RouteViews and RIPE RIS.')
     bgp.set_defaults(func=bgpribs.get)
