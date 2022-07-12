@@ -44,6 +44,9 @@ class AbstractRetriever(ABC):
         return len(content)
 
     def parallel_download(self, urls):
+        if not urls:
+            print('No files found to download')
+            return
         totalsize = 0
         pb = Progress(len(urls), 'Downloading files',
                       callback=lambda: 'Size {}'.format(format_size(totalsize)))
