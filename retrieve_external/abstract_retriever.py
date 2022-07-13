@@ -27,8 +27,6 @@ class AbstractRetriever(ABC):
         self.days = [self.begin + timedelta(i) for i in range(0, (self.end - self.begin).days + 1, self.interval)]
         self.processes = args.processes
         self.dir = args.dir
-        if self.dir != '.' and self.dir != '..':
-            makedirs(self.dir, exist_ok=True)
 
     def newfilename(self, url: str):
         return basename(urlparse(url).path)
@@ -39,11 +37,13 @@ class AbstractRetriever(ABC):
             print('\r\033[KWarning: {}'.format(info.url), file=sys.stderr)
             return 0
         content = r.content
+        makedirs(self.dir, exist_ok=True)  # Does nothing whenever called from parallel_download
         with open(pjoin(self.dir, info.filename), 'wb') as f:
             f.write(content)
         return len(content)
 
     def parallel_download(self, urls):
+        makedirs(self.dir, exist_ok=True)
         totalsize = 0
         pb = Progress(len(urls), 'Downloading files',
                       callback=lambda: 'Size {}'.format(format_size(totalsize)))
