@@ -17,6 +17,9 @@ class TTypeException(Exception):
     """Raise for incorrectly supplied traceroute types."""
 
 class CaidaTraceroute(AbstractRetriever):
+    PREFIX_BASE_URL = "https://data.caida.org/datasets/topology/ark/ipv4/prefix-probing/"
+    TEAM_BASE_URL = "https://data.caida.org/datasets/topology/ark/ipv4/probe-data/"
+
 
     def get(self, iterable: Iterable[Tuple[str, str]]):
         urls = []
@@ -37,17 +40,15 @@ class CaidaTraceroute(AbstractRetriever):
 
     def get_prefix(self):
         for day in self.days:
-            url = ('https://topo-data.caida.org/prefix-probing/'
-                   '{year}/{month:02d}/').format(year=day.year, month=day.month)
-            regex = r'.*{year}{month:02d}{day:02d}.*.warts.gz'.format(year=day.year, month=day.month, day=day.day)
+            url = f"{CaidaTraceroute.PREFIX_BASE_URL}/{day.year}/{day.month:02d}/"
+            regex = f".*{day.year}{day.month:02d}{day.day:02d}.*.warts.gz"
             yield url, regex
 
     def get_team(self):
         for day in self.days:
             for team in range(1, 4):
-                url = ('https://topo-data.caida.org/team-probing/list-7.allpref24/team-{team}/daily/{year}/'
-                       'cycle-{year}{month:02d}{day:02d}/').format(
-                    team=team, year=day.year, month=day.month, day=day.day)
+                path = f"team-{team}/daily/{day.year}/cycle-{day.year}{day.month:02d}{day.day:02d}/"
+                url = f"{CaidaTraceroute.TEAM_BASE_URL}/{path}"
                 yield url, r'.*\.warts\.gz'
 
 def get(args, ttype):
