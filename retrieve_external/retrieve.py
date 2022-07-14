@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from argparse import ArgumentParser
 
-from retrieve_external import bgpribs, riperecent, rirdelegations, relationships, peeringdb, pch
+from retrieve_external import asorg, bgpribs, riperecent, rirdelegations, relationships, peeringdb, pch
 from retrieve_external.caidatraceroute import get_caidateam, get_caidaprefix
 from retrieve_external import publictraceroute
 
@@ -45,6 +45,9 @@ def main():
 
     riperecentp = sub.add_parser('ripe-recent', help='Retrieve recent RIPE Atlas traceroutes')
     riperecentp.set_defaults(func=riperecent.get)
+
+    asorgp = sub.add_parser('asorg', help='Retrieve AS2Org files.')
+    asorgp.set_defaults(func=asorg.get)
 
     args = parser.parse_args()
     if not args.end:
