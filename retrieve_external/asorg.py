@@ -30,7 +30,6 @@ def _build_urls(retriever):
         if m:
             date = datetime.datetime.strptime(m.group("date"), "%Y%m%d")
             joinedref = urllib.parse.urljoin(_AS2ORG_BASE_URL, href)
-            print(date, joinedref)
             date2url[date].append(joinedref)
     if not date2url:
         print(f"Did not identify any files in index of {_AS2ORG_BASE_URL}")
@@ -53,7 +52,6 @@ def _build_urls(retriever):
     for d in closest_dates:
         for href in date2url[d]:
             filename = os.path.basename(urllib.parse.urlparse(href).path)
-            print(href, filename)
             infos.append(DownloadInfo(href, filename, auth=None))
     return infos
 

@@ -52,6 +52,9 @@ def main():
     prefix2asp = sub.add_parser('prefix2as', help='Retrieve prefix2as files.')
     prefix2asp.set_defaults(func=prefix2as.get)
 
+    asorgp = sub.add_parser('asorg', help='Retrieve AS2Org files.')
+    asorgp.set_defaults(func=asorg.get)
+
     args = parser.parse_args()
     if not args.end:
         args.end = args.begin
