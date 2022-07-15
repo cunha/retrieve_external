@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from argparse import ArgumentParser
 
-from retrieve_external import bgpribs, rirdelegations, relationships, peeringdb, pch
+from retrieve_external import bgpribs, rirdelegations, relationships, peeringdb, pch, prefix2as
 from retrieve_external.caidatraceroute import get_caidateam, get_caidaprefix
 
 def main():
@@ -35,6 +35,9 @@ def main():
 
     pchf = sub.add_parser('pch', help='Retreive PCH route collector dump files.')
     pchf.set_defaults(func=pch.get)
+
+    prefix2asp = sub.add_parser('prefix2as', help='Retrieve prefix2as files.')
+    prefix2asp.set_defaults(func=prefix2as.get)
 
     args = parser.parse_args()
     if not args.end:
