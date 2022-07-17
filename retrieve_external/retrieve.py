@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from argparse import ArgumentParser
 
-from retrieve_external import bgpribs, rirdelegations, relationships, peeringdb, pch
+from retrieve_external import bgpribs, itdk, rirdelegations, relationships, peeringdb, pch
 from retrieve_external.caidatraceroute import get_caidateam, get_caidaprefix
 
 def main():
@@ -35,6 +35,12 @@ def main():
 
     pchf = sub.add_parser('pch', help='Retreive PCH route collector dump files.')
     pchf.set_defaults(func=pch.get)
+
+    itdkpp = sub.add_parser('itdk-public', help='Retrieve public ITDK files.')
+    itdkpp.set_defaults(func=itdk.get_public)
+
+    itdkpc = sub.add_parser('itdk-caida', help='Retrieve CAIDA ITDK files.')
+    itdkpc.set_defaults(func=itdk.get_caida)
 
     args = parser.parse_args()
     if not args.end:
