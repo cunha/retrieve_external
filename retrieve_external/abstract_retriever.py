@@ -1,7 +1,7 @@
 import sys
 from abc import ABC, abstractmethod
 from collections import namedtuple
-from datetime import timedelta
+from datetime import datetime, timedelta
 from multiprocessing.pool import Pool
 from os import makedirs
 from os.path import basename, join as pjoin
@@ -53,3 +53,18 @@ class AbstractRetriever(ABC):
                     totalsize += size
         except KeyboardInterrupt:
             print('Ending prematurely.')
+
+    def map_dates(self, file_dates):
+        i = 0
+        sorted_dates = sorted(file_dates)
+        sorted_dates.append(datetime(9999, 1, 1))  # sentinel
+        inputdate2filedate = {}
+        for d in self.days:
+            while sorted_dates[i + 1] < d:
+                # Try to place d between sorted_dates[i] and sorted_dates[i+1]
+                i += 1
+            if abs(d - sorted_dates[i]) < abs(sorted_dates[i + 1] - d):
+                inputdate2filedate[d] = sorted_dates[i]
+            else:
+                inputdate2filedate[d] = sorted_dates[i + 1]
+        return inputdate2filedate

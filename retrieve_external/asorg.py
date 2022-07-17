@@ -12,6 +12,7 @@ from retrieve_external.abstract_retriever import (AbstractRetriever,
 
 _AS2ORG_BASE_URL = "https://publicdata.caida.org/datasets/as-organizations/"
 _AS2ORG_FILENAME_REGEX = r"(?P<date>[0-9]+)\.as-org2info\..*\.gz"
+_DATEMAP_FILENAME = "datemap.txt"
 
 
 def _build_urls(retriever):
@@ -35,28 +36,22 @@ def _build_urls(retriever):
         print(f"Did not identify any files in index of {_AS2ORG_BASE_URL}")
         return []
 
-    i = 0
-    sorted_dates = sorted(date2url.keys())
-    sorted_dates.append(datetime.datetime(9999, 1, 1))  # sentinel
-    closest_dates = set()
-    for d in retriever.days:
-        while sorted_dates[i + 1] < d:
-            # Try to place d between sorted_dates[i] and sorted_dates[i+1]
-            i += 1
-        if abs(d - sorted_dates[i]) < abs(sorted_dates[i + 1] - d):
-            closest_dates.add(sorted_dates[i])
-        else:
-            closest_dates.add(sorted_dates[i + 1])
+    file_dates = date2url.keys()
+    inputdate2filedate = retriever.map_dates(file_dates)
 
     infos = []
-    for d in closest_dates:
+    for d in inputdate2filedate.values():
         for href in date2url[d]:
             filename = os.path.basename(urllib.parse.urlparse(href).path)
             infos.append(DownloadInfo(href, filename, auth=None))
-    return infos
+    return infos, inputdate2filedate
 
 
 def get(args):
     retriever = AbstractRetriever(args)
-    infos = _build_urls(retriever)
+    infos, inputdate2filedate = _build_urls(retriever)
+    with open(os.path.join(retriever.dir, _DATEMAP_FILENAME), "w", encoding="utf8") as fd:
+        for inputdate, filedate in inputdate2filedate.items():
+            fd.write(f"{inputdate.strftime('%Y%m%d')} {filedate.strftime('%Y%m%d')}\n")
+
     retriever.parallel_download(infos)
