@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from argparse import ArgumentParser
 
-from retrieve_external import asorg, bgpribs, riperecent, rirdelegations, relationships, peeringdb, pch, prefix2as
+from retrieve_external import asorg, bgpribs, itdk, riperecent, rirdelegations, relationships, peeringdb, pch, prefix2as
 from retrieve_external.caidatraceroute import get_caidateam, get_caidaprefix
 from retrieve_external import publictraceroute
 
@@ -54,6 +54,12 @@ def main():
 
     asorgp = sub.add_parser('asorg', help='Retrieve AS2Org files.')
     asorgp.set_defaults(func=asorg.get)
+
+    itdkpp = sub.add_parser('itdk-public', help='Retrieve public ITDK files.')
+    itdkpp.set_defaults(func=itdk.get_public)
+
+    itdkpc = sub.add_parser('itdk-caida', help='Retrieve CAIDA ITDK files.')
+    itdkpc.set_defaults(func=itdk.get_caida)
 
     args = parser.parse_args()
     if not args.end:
