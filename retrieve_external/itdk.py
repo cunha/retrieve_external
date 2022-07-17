@@ -56,9 +56,11 @@ def _build_urls(retriever, baseurl):
 def get(args, baseurl):
     retriever = AbstractRetriever(args)
     infos, inputdate2filedate = _build_urls(retriever, baseurl)
-    with open(os.path.join(retriever.dir, _DATEMAP_FILENAME), "w", encoding="utf8") as fd:
-        for inputdate, filedate in inputdate2filedate.items():
-            fd.write(f"{inputdate.strftime('%Y%m%d')} {filedate.strftime('%Y%m%d')}\n")
+    if infos:
+        os.makedirs(retriever.dir, exist_ok=True)
+        with open(os.path.join(retriever.dir, _DATEMAP_FILENAME), "w", encoding="utf8") as fd:
+            for inputdate, filedate in inputdate2filedate.items():
+                fd.write(f"{inputdate.strftime('%Y%m%d')} {filedate.strftime('%Y%m%d')}\n")
     retriever.parallel_download(infos)
 
 
