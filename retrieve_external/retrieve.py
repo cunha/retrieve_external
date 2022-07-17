@@ -36,10 +36,10 @@ def main():
     pchf = sub.add_parser('pch', help='Retreive PCH route collector dump files.')
     pchf.set_defaults(func=pch.get)
 
-    itdkpp = sub.add_parser('itdk-public', help='Retrieve public ITDK files.')
+    itdkpp = sub.add_parser('public-itdk', help='Retrieve public ITDK files.')
     itdkpp.set_defaults(func=itdk.get_public)
 
-    itdkpc = sub.add_parser('itdk-caida', help='Retrieve CAIDA ITDK files.')
+    itdkpc = sub.add_parser('caida-itdk', help='Retrieve CAIDA ITDK files.')
     itdkpc.set_defaults(func=itdk.get_caida)
 
     args = parser.parse_args()
