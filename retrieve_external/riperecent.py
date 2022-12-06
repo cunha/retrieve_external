@@ -22,6 +22,15 @@ def _build_urls(retriever):
 
     soup = BeautifulSoup(r.text, features="html.parser")
     table = soup.find("table")
+    if not table:
+        # As of 2022-12-06, it seems RIPE updated their servers and the
+        # index page has a different DOM. We're keeping the find("table")
+        # above for additional resilience for now.
+        table = soup.find("pre")
+    if not table:
+        print("Failed to parse file index from RIPE's server, no table or pre tags")
+        print(f"URL was {_BASE_URL}")
+        return []
     available = set()
     regex = re.compile(_DATE_REGEX)
     for link in table.find_all("a"):
@@ -51,6 +60,12 @@ def _build_urls(retriever):
             continue
         soup = BeautifulSoup(r.text, features="html.parser")
         table = soup.find("table")
+        if not table:
+            table = soup.find("pre")
+        if not table:
+            print("Failed to parse file index from RIPE's server, no table or pre tags")
+            print(f"URL was {url}")
+            continue
         for link in table.find_all("a"):
             href = link["href"]
             m = regex.search(href)
